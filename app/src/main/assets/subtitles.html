@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LingVis SDK</title>
+</head>
+<body style="background-color: transparent; pointer-events: none">
+    <div id="playerWrapper">
+        <div id="subtitles"></div>
+    </div>
+    <script src="https://sprakkraft.org/lingvis-sdk/web/1.4.x"></script>
+    <script src="libs/poly-d3.js"></script>
+    <script src="libs/lingVisSDK-subtitles.js"></script>
+    <script src="libs/lingVisSDK-srt-parser.js"></script>
+    <script>
+      lingVisSdk.signInAnonymous(() => {
+        lingVisSdk.updateSettings('sv', 1, 'en', async () => {
+          const subtitles = lingVisSdk.subtitles({
+            cues: await lingVisSdk.srtParser('https://sprakkraft.org/rc/articles/sv/sprak-start/lesson01/dialog.srt'),
+            player: {
+              type: 'custom',
+              options: {
+                wrapperSelector: '#playerWrapper',
+                getTime: () => {
+                    return LingVisSDK.getTime();
+                },
+                pause: () => { },
+                start: () => { },
+                seek: (time) => { },
+              }
+            },
+            config: {
+              modeLandscape: {
+                subtitlesPerContainer: 1,
+                isOverlap: true,
+                offset: '3px'
+              }
+            },
+            wrapperSelector: '#subtitles',
+          });
+          //subscribeToControls(subtitles);
+        });
+      });
+    </script>
+
+</body>
+</html>

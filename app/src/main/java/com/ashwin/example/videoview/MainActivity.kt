@@ -1,5 +1,6 @@
 package com.ashwin.example.videoview
 
+import android.app.Activity
 import android.graphics.Color
 import android.net.Uri
 import android.os.Build
@@ -11,8 +12,14 @@ import androidx.appcompat.app.AppCompatActivity
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
+
+    companion object {
+        var currActivity: Activity? = null
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        currActivity = this
         setContentView(R.layout.activity_main)
 
         val mediaController = MediaController(this)
@@ -54,6 +61,14 @@ class MainActivity : AppCompatActivity() {
         @android.webkit.JavascriptInterface
         fun getTime(): Int {
             return my_videoview.currentPosition
+        }
+
+        @android.webkit.JavascriptInterface
+        fun subtitleRect(x: Double, y: Double, width: Double, height: Double) {
+            my_webview.subLeft = x
+            my_webview.subTop = y
+            my_webview.subWidth = width
+            my_webview.subHeight = height
         }
     }
 }

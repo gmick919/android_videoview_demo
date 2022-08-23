@@ -3,7 +3,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>LingVis SDK</title>
 </head>
-<body style="background-color: transparent; pointer-events: none">
+<body style="background-color: transparent;-webkit-user-select=none">
     <div id="playerWrapper">
         <div id="subtitles"></div>
     </div>
@@ -37,7 +37,10 @@
             },
             wrapperSelector: '#subtitles',
           });
-          //subscribeToControls(subtitles);
+          subtitles.on('subtitleChanged', () => {
+            let rect = document.getElementById('subtitles').getBoundingClientRect();
+            LingVisSDK.subtitleRect(rect.x, rect.y, rect.width, rect.height);
+          });
         });
       });
     </script>
